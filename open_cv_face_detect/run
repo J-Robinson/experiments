@@ -1,0 +1,3 @@
+#!/bin/bash
+export DYLD_LIBRARY_PATH=/opt/opencv3/lib
+release/bin/CDO_DataScience_Detect_Face_V1
