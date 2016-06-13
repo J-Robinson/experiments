@@ -3,7 +3,7 @@
 An experiemt using OpenCV V3 to detect faces, eyes, nose.
 Build and install OpenCV to /opt/opencv3:
 
-```
+```Shell
 cd ~/opencv-3.1.0
 mkdir release
 cd release

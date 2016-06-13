@@ -12,11 +12,11 @@ using namespace cv;
 void detectAndDisplay( Mat frame );
 
 /** Global variables */
-String face_cascade_name = "/opt/opencv3/share/OpenCV/haarcascades/haarcascade_frontalface_alt.xml";
-//String eyes_cascade_name = "/opt/opencv3/share/OpenCV/haarcascades/haarcascade_eye_tree_eyeglasses.xml";
-String eyes_cascade_name = "/opt/opencv3/share/OpenCV/haarcascades/haarcascade_eye.xml";
+String face_cascade_name = "./haarcascade_frontalface_alt.xml";
+//String eyes_cascade_name = "haarcascade_eye_tree_eyeglasses.xml";
+String eyes_cascade_name = "./haarcascade_eye.xml";
 
-String nose_cascade_name = "/opt/opencv/share/OpenCV/haarcascades/haarcascade_mcs_nose.xml";
+String nose_cascade_name = "./haarcascade_mcs_nose.xml";
 
 CascadeClassifier face_cascade;
 CascadeClassifier eyes_cascade;
@@ -96,11 +96,9 @@ void detectAndDisplay( Mat frame )
     
         //-- In each face, detect eyes
         eyes_cascade.detectMultiScale( faceROI, eyes, 1.1, 4, 0 |CV_HAAR_SCALE_IMAGE, Size(30, 30) );
-        std::size_t numEyes = eyes.size();
-        if (numEyes > 2)
-        {
-            numEyes = 2;
-        }
+        
+        std::size_t numEyes = std::min(static_cast<std::size_t>(2), eyes.size());
+       
         for( size_t j = 0; j < numEyes; j++ )
         {
             Point eyeCenter( faces[i].x + eyes[j].x + eyes[j].width*0.5, faces[i].y + eyes[j].y + eyes[j].height*0.5 );
@@ -118,6 +116,7 @@ void detectAndDisplay( Mat frame )
             ellipse( frame, noseCenter, Size( nose[0].width*0.2, nose[0].height*0.5), 0, 0, 360, Scalar( 0, 255, 255 ), 4, 8, 0 );
         }
     }
+    putText(frame, "CDO Data Science", Point(10, frame.size().height-10), FONT_HERSHEY_PLAIN, 4.0 /*scale*/, CV_RGB(255,255,255), 4.0 /*lineType*/, LINE_AA);
     //-- Show what you got
     //namedWindow(window_name, CV_WINDOW_NORMAL);
     //setWindowProperty(window_name, CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
